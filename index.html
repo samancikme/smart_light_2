@@ -88,7 +88,7 @@
             }
             try {
                 const pin = "V0";
-                const value = isOn ? 1 : 0;
+                const value = isOn ? 0 : 1;
                 const url = `https://blynk.cloud/external/api/update?token=${token}&${pin}=${value}`;
 
                 const response = await fetch(url);
