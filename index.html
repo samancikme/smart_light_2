@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aqillı shıraq basqarıwı </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .lamp {
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .lamp:hover {
+            transform: scale(1.05);
+        }
+
+        .lamp:active {
+            transform: scale(0.95);
+        }
+
+        .status {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #eee;
+        }
+
+        .on {
+            color: #27ae60;
+        }
+
+        .off {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Aqillı shıraq basqarıwı</h1>
+
+        <img id="lamp" src="https://cdn-icons-png.flaticon.com/512/702/702797.png" alt="Chiroq" class="lamp">
+
+        <div id="status" class="status off">Shıraq oshık</div>
+    </div>
+
+    <script>
+        const lamp = document.getElementById('lamp');
+        const statusElement = document.getElementById('status');
+        let isOn = false;
+        const token = "XvrIYGcswbF0DjhQtHmWP9FA2D5PbYTw";
+        lamp.addEventListener('click', async function () {
+            isOn = !isOn;
+            if (isOn) {
+                lamp.src = "https://cdn-icons-png.flaticon.com/512/702/702797.png";
+                statusElement.textContent = "Shıraq janıq";
+                statusElement.className = "status on";
+            } else {
+                lamp.src = "https://cdn-icons-png.flaticon.com/512/702/702814.png";
+                statusElement.textContent = "Shıraq oshık";
+                statusElement.className = "status off";
+            }
+            try {
+                const pin = "V0";
+                const value = isOn ? 1 : 0;
+                const url = `https://blynk.cloud/external/api/update?token=${token}&${pin}=${value}`;
+
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error('So\'rov muvaffaqiyatsiz yakunlandi');
+                }
+
+                console.log('Chiroq holati muvaffaqiyatli o\'zgartirildi');
+            } catch (error) {
+                console.error('Xatolik yuz berdi:', error);
+                isOn = !isOn;
+                if (isOn) {
+                    lamp.src = "https://cdn-icons-png.flaticon.com/512/702/702797.png";
+                    statusElement.textContent = "Shıraq janıq";
+                    statusElement.className = "status on";
+                } else {
+                    lamp.src = "https://cdn-icons-png.flaticon.com/512/702/702814.png";
+                    statusElement.textContent = "Shıraq oshık";
+                    statusElement.className = "status off";
+                }
+                alert('Chiroqni boshqarishda xatolik yuz berdi. Iltimos, internet aloqasini tekshiring.');
+            }
+        });
+    </script>
+</body>
+
+</html>
